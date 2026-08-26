@@ -11,7 +11,10 @@ import java.net.MalformedURLException;
 import java.time.Duration;
 
 public class LoginTest extends BaseTest {
-    @Test
+    @Test (
+        description = "TC_LOGIN_001 - Verify valid user can login successfully",
+        groups = {"smoke", "login"}
+)
     public void validateLogin() throws MalformedURLException {
         ProductsPage productsPage = new ProductsPage(DriverFactory.getDriver());
         if (productsPage.isProductsPageDisplayed(Duration.ofSeconds(2))) {
@@ -22,7 +25,10 @@ public class LoginTest extends BaseTest {
         productsPage = loginPage.login("standard_user", "secret_sauce");
         Assert.assertTrue(productsPage.isProductsPageDisplayed(), "Products page is not displayed");
     }
-    @Test
+    @Test(
+        description = "TC_LOGIN_002 - Verify login fails with invalid username",
+        groups = {"regression", "login", "negative"}
+)
     public void invalidLogin() throws MalformedURLException {
         LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.login("standard_user2", "secret_sauce");

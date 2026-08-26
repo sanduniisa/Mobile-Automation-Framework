@@ -1,99 +1,71 @@
 package org.example.driver;
 
-import  io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import java.net.MalformedURLException;
-import java.net.URL;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import org.example.utils.ConfigReader;
+
+import java.net.MalformedURLException;
+import java.net.URI;
 
 public class DriverFactory {
 
-    private static AndroidDriver driver;
+    private static ThreadLocal<AndroidDriver> driver =
+            new ThreadLocal<>();
 
-    public static void initializeDriver() throws MalformedURLException {
+    public static void initializeDriver(
+            String udid,
+            String systemPort,
+            String appiumPort
+    ) throws MalformedURLException {
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
+        UiAutomator2Options options =
+                new UiAutomator2Options();
 
-        capabilities.setCapability(
-                "platformName",
-                ConfigReader.get("platformName")
-        );
+        options.setPlatformName(ConfigReader.get("platformName"));
+        options.setAutomationName(ConfigReader.get("automationName"));
 
-        capabilities.setCapability(
-                "appium:automationName",
-                ConfigReader.get("automationName")
-        );
+        options.setDeviceName(udid);
+        options.setUdid(udid);
 
-        capabilities.setCapability(
-                "appium:deviceName",
-                ConfigReader.get("deviceName")
-        );
+        options.setAppPackage(ConfigReader.get("appPackage"));
 
-        capabilities.setCapability(
-                "appium:appPackage",
-                ConfigReader.get("appPackage")
-        );
+        options.setAppActivity(ConfigReader.get("appActivity"));
 
-        capabilities.setCapability(
-                "appium:appActivity",
-                ConfigReader.get("appActivity")
-        );
-
-        capabilities.setCapability(
-                "appium:autoGrantPermissions",
+        options.setAutoGrantPermissions(
                 ConfigReader.getBoolean("autoGrantPermissions")
         );
+        options.setNoReset(ConfigReader.getBoolean("noReset"));
 
-        driver = new AndroidDriver(
-                new URL(
-                        ConfigReader.get("appiumServer")
-                ),
-                capabilities
+        options.setCapability(
+                "appium:systemPort",
+                Integer.parseInt(systemPort)
         );
+        options.setCapability(
+                "appium:adbExecTimeout",
+                Integer.parseInt(ConfigReader.get("adbExecTimeout"))
+        );
+
+        AndroidDriver androidDriver =
+                new AndroidDriver(
+                        URI.create(
+                                ConfigReader.get("appiumHost") + ":"
+                                        + appiumPort
+                        ).toURL(),
+                        options
+                );
+
+        driver.set(androidDriver);
     }
 
     public static AndroidDriver getDriver() {
-        return driver;
+        return driver.get();
     }
 
     public static void quitDriver() {
 
-        if (driver != null) {
-            driver.quit();
-            driver = null;
+        if (driver.get() != null) {
+            driver.get().quit();
+            driver.remove();
         }
     }
 }
-
-
-//public class DriverFactory {
-//    private static AndroidDriver driver;
-////driver factory creates driver, configure capabilities, return driver and close driver
-//    public static void initializeDriver() throws MalformedURLException {
-//
-//        DesiredCapabilities capabilities = new DesiredCapabilities();
-//
-//        capabilities.setCapability("platformName", "Android");
-//        capabilities.setCapability("appium:automationName", "UiAutomator2");
-//        capabilities.setCapability("appium:deviceName", "emulator-5554");
-//        capabilities.setCapability("appium:appPackage", "com.swaglabsmobileapp");
-//        capabilities.setCapability("appium:appActivity", "com.swaglabsmobileapp.MainActivity");
-//        capabilities.setCapability("appium:autoGrantPermissions", true);
-//
-//        driver = new AndroidDriver(
-//                new URL("http://127.0.0.1:4723"),
-//                capabilities
-//        );
-//    }
-//
-//    public static AndroidDriver getDriver() {
-//        return driver;
-//    }
-//
-//    public static void quitDriver() {
-//        if (driver != null) {
-//            driver.quit();
-//            driver = null;
-//        }
-//    }
-//}
