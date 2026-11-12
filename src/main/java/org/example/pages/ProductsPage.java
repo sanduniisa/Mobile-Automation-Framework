@@ -14,9 +14,9 @@ import java.time.Duration;
 public class ProductsPage {
     private final AndroidDriver driver;
     private final WaitUtils wait;
-    private final By productsTitle = By.xpath("//android.widget.TextView[@text=\"PRODUCTS\"]");
-    private final By menuButton = AppiumBy.accessibilityId("test-Menu");
-    private final By logoutButton = AppiumBy.accessibilityId("test-LOGOUT");
+    private  By productsTitle = By.xpath("//android.widget.TextView[@text=\"PRODUCTS\"]");
+    private  By menuButton = AppiumBy.accessibilityId("test-Menu");
+    private  By logoutButton = AppiumBy.accessibilityId("test-LOGOUT");
     public ProductsPage(AndroidDriver driver) {
         this.driver = driver;
         this.wait = new WaitUtils(driver);

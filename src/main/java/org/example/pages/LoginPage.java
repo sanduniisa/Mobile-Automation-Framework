@@ -26,6 +26,8 @@ public class LoginPage {
             AppiumBy.androidUIAutomator(
                     "new UiSelector().text(\"Username and password do not match any user in this service.\")"
             );
+    private By emptyFieldsErrorMessage =
+            AppiumBy.accessibilityId("test-Error message");
 
     public LoginPage(AndroidDriver driver) {
         this.driver = driver;
@@ -56,5 +58,14 @@ public class LoginPage {
     public String getLoginErrorMessage() {
         return wait.waitForVisible(loginErrorMessage)
                 .getText();
+    }
+
+    public String getEmptyFieldsErrorMessage() {
+        return wait.waitForVisible(emptyFieldsErrorMessage)
+                                .findElement(By.xpath(".//android.widget.TextView"))
+                                .getText();
+    }
+    public boolean isLoginScreenDisplayed() {
+        return wait.waitForVisible(usernameField).isDisplayed();
     }
 }

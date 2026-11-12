@@ -44,6 +44,10 @@ public class DriverFactory {
                 "appium:adbExecTimeout",
                 Integer.parseInt(ConfigReader.get("adbExecTimeout"))
         );
+        options.setCapability(
+                "appium:uiautomator2ServerLaunchTimeout",
+                60000
+        );
 
         AndroidDriver androidDriver =
                 new AndroidDriver(

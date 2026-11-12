@@ -20,7 +20,7 @@
         </groups> -->
 
         <classes>
-            <class name="org.example.tests.LoginTest"/>
+            <class name="org.example.runner.CucumberTestRunner"/>
         </classes>
 
     </test>
@@ -48,7 +48,7 @@
 
 
         <classes>
-            <class name="org.example.tests.LoginTest"/>
+            <class name="org.example.runner.CucumberTestRunner"/>
         </classes>
 
     </test>

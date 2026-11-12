@@ -18,6 +18,8 @@
     <appium.version>10.0.0</appium.version>
     <selenium.version>4.35.0</selenium.version>
     <testng.version>7.11.0</testng.version>
+    <cucumber.version>7.20.1</cucumber.version>
+    <testng.suiteXmlFile>testng.xml</testng.suiteXmlFile>
   </properties>
 
   <dependencies>
@@ -44,6 +46,20 @@
 <!--      <scope>test</scope>-->
     </dependency>
 
+    <!-- Cucumber BDD with TestNG -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-testng</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -67,7 +83,7 @@
         <version>3.5.3</version>
         <configuration>
           <suiteXmlFiles>
-            <suiteXmlFile>testng.xml</suiteXmlFile>
+            <suiteXmlFile>${testng.suiteXmlFile}</suiteXmlFile>
           </suiteXmlFiles>
         </configuration>
       </plugin>
